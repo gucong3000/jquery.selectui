@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>jquery.selectui</title>
+<style>
+select,
+.select_ui {
+	border: 1px solid #D2D2D2;
+	vertical-align: middle;
+	display: inline-block;
+	position: relative;
+	background: #fff;
+	text-align: left;
+	cursor: inherit;
+	*display: inline;
+	*cursor: default;
+	*zoom: 1;
+}
+select:focus,
+.select_focus_ui {
+	border-color: #FED519;
+}
+.select_ui .select_arrow {
+	border-bottom: 0;
+}
+.select_ui .select_text_ui {
+	vertical-align: baseline;
+	padding: 3px 0 3px 3px;
+	white-space: nowrap;
+	line-height: normal;
+	margin-right: 20px;
+	overflow: hidden;
+	display: block;
+	color: inherit;
+	*line-height: 1.25;
+	*zoom: 1;
+}
+.select_ui select,
+.select_ui .select_poswrap {
+	position: absolute;
+	padding: 0;
+	border: 0;
+	margin: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	top: 0;
+}
+.select_ui select {
+	filter: alpha(opacity=0);
+	box-sizing: border-box;
+	background: #fff;
+	min-width: 100%;
+	color: inherit;
+	font: inherit;
+	height: 100%;
+	opacity: 0;
+}
+.select_ui .select_poswrap {
+	overflow: hidden;
+	height: 0;
+	width: 0;
+}
+.select_poswrap select {
+	_position: static !important;
+}
+.select_ui .select_arrow {
+	border: 5px solid #fff;
+	border-color: #999 transparent;
+	*border-color: #999 #fff;
+	position: absolute;
+	border-bottom: 0;
+	overflow: hidden;
+	margin-top: -2px;
+	display: block;
+	right: 5px;
+	top: 50%;
+	height: 0;
+	width: 0;
+	*zoom: 1;
+}
+</style>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="jquery.selectui.js"></script>
+<script>
+	jQuery(function($) {
+		$(".selectui").selectui({
+			// 是否自动计算宽度
+			autoWidth: true,
+			// 是否启用定时器刷新文本和宽度
+			interval: true
+		});
+	});
+</script>
+</head>
+<body>
+<p>
+	selectui
+	<select class="selectui">
+		<option>Slower</option>
+		<option>Slow</option>
+		<option>Medium</option>
+		<option>Fast</option>
+		<option>Faster</option>
+	</select>
+</p>
+<p>
+	Native
+	<select>
+		<option>Slower</option>
+		<option>Slow</option>
+		<option>Medium</option>
+		<option>Fast</option>
+		<option>Faster</option>
+	</select>
+</p>
+</body>
+</html>
