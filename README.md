@@ -8,7 +8,7 @@ Modifying select appearance
 
 本插件非常轻量，仅仅改变外观，select原有的弹出部分并未做任何修改，故不受页面可视区域限制。
 
-## 用法与参数
+## 用法与参数默认值
 
 ```Javescript
 $("select").selectui({
