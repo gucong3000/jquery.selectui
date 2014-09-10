@@ -12,15 +12,17 @@ Modifying select appearance
 
 ```Javescript
 $("select").selectui({
-	// 是否自动计算宽度
+	// 是否自动计算宽度，设置为false时可css设置宽度
 	autoWidth: true,
-	// 是否启用定时器刷新文本和宽度
+	// 是否启用定时检测select当前选中项，当改变时更新文本
 	interval: true
 });
 ```
 
-##
-
 ## 浏览器支持
 
 兼容IE6+和其他现代浏览器
+
+## 其他
+
+著名的IE6下select无法被div遮盖的bug，由于外观被改变而正好得到解决。
