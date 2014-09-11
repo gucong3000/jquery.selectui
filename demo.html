@@ -22,7 +22,19 @@ select:focus,
 	border-color: #FED519;
 }
 .select_ui .select_arrow {
+	border: 5px solid #fff;
+	border-color: #999 transparent;
+	*border-color: #999 #fff;
+	position: absolute;
 	border-bottom: 0;
+	overflow: hidden;
+	margin-top: -2px;
+	display: block;
+	right: 5px;
+	top: 50%;
+	height: 0;
+	width: 0;
+	*zoom: 1;
 }
 .select_ui .select_text_ui {
 	vertical-align: baseline;
@@ -65,27 +77,65 @@ select:focus,
 .select_poswrap select {
 	_position: static !important;
 }
-.select_ui .select_arrow {
-	border: 5px solid #fff;
-	border-color: #999 transparent;
-	*border-color: #999 #fff;
-	position: absolute;
-	border-bottom: 0;
-	overflow: hidden;
-	margin-top: -2px;
-	display: block;
-	right: 5px;
-	top: 50%;
-	height: 0;
-	width: 0;
-	*zoom: 1;
+
+/* 风格1 */
+.style1 .select_ui {
+	border: 2px solid #1cb9c2;
+	background: #1cb9c2;
+	border-radius: 8px;
 }
+.style1 .select_text_ui {
+	border-radius: 6px 0 0 6px;
+	margin-right: 30px;
+	background: #fff;
+}
+.style1 .select_arrow {
+	border-color: #1cb9c2;
+	border-top-color: #fff;
+	right: 8px;
+}
+
+/* 风格2 */
+.style2 .select_ui {
+	border: 2px solid #1cb9c2;
+	border-radius: 8px;
+}
+.style2 .select_text_ui {
+	margin-right: 30px;
+}
+.style2 .select_arrow {
+	border: 2px solid #1cb9c2;
+	/*IE6-8下支持transform属性的组件*/
+    behavior: url(misc/transform.htc);
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    margin-top: -5px;
+    border-left: 0;
+    border-top: 0;
+    height: 6px;
+    right: 10px;
+    width: 6px;
+}
+
+.style1 .select_ui,
+.style2 .select_ui,
+.style1 .select_text_ui {
+	/*IE6-8下支持border-radius等属性的组件*/
+    behavior: url(misc/PIE.htc);
+}
+.style1 .select_ui,
+.style2 .select_ui {
+	_overflow: hidden;
+	_height: 26px;
+}
+
 </style>
-<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="misc/jquery.min.js"></script>
 <script src="jquery.selectui.js"></script>
 <script>
 	jQuery(function($) {
-		$(".selectui").selectui({
+		$("select").not(".native select").selectui({
 			// 是否自动计算宽度
 			autoWidth: true,
 			// 是否启用定时器刷新文本和宽度
@@ -95,54 +145,76 @@ select:focus,
 </script>
 </head>
 <body>
-<p>
-	selectui
-	<select class="selectui">
-		<option>Slower</option>
-		<option>Slow</option>
-		<option>Medium</option>
-		<option>Fast</option>
-		<option>Faster</option>
-	</select>
-	加载$.selectui
-</p>
-<p>
-	no arrow
-	<span class="select_ui">
-		<select class="selectui">
+<dl>
+	<dt>Native</dt>
+	<dd class="native">
+		<select>
 			<option>Slower</option>
 			<option>Slow</option>
 			<option>Medium</option>
 			<option>Fast</option>
 			<option>Faster</option>
 		</select>
-	</span>
-	不要小箭头
-</p>
-<p>
-	width
-	<span class="select_ui" style="width: 250px;">
-		<b class="select_arrow"></b>
-		<select class="selectui">
+		浏览器原生样式
+	</dd>
+	<dt>selectui</dt>
+	<dd>
+		<select>
 			<option>Slower</option>
 			<option>Slow</option>
 			<option>Medium</option>
 			<option>Fast</option>
 			<option>Faster</option>
 		</select>
-	</span>
-	自定义宽度
-</p>
-<p>
-	Native
-	<select>
-		<option>Slower</option>
-		<option>Slow</option>
-		<option>Medium</option>
-		<option>Fast</option>
-		<option>Faster</option>
-	</select>
-	浏览器原生样式
-</p>
+		加载$.selectui
+	</dd>
+	<dt>no arrow</dt>
+	<dd>
+		<span class="select_ui">
+			<select class="selectui">
+				<option>Slower</option>
+				<option>Slow</option>
+				<option>Medium</option>
+				<option>Fast</option>
+				<option>Faster</option>
+			</select>
+		</span>
+		不要小箭头
+	</dd>
+	<dt>width</dt>
+	<dd>
+		<span class="select_ui" style="width: 250px;">
+			<b class="select_arrow"></b>
+			<select class="selectui">
+				<option>Slower</option>
+				<option>Slow</option>
+				<option>Medium</option>
+				<option>Fast</option>
+				<option>Faster</option>
+			</select>
+		</span>
+		自定义宽度
+	</dd>
+	<dt>风格1</dt>
+	<dd class="style1">
+		<select>
+			<option>Slower</option>
+			<option>Slow</option>
+			<option>Medium</option>
+			<option>Fast</option>
+			<option>Faster</option>
+		</select>
+	</dd>
+	<dt>风格2</dt>
+	<dd class="style2">
+		<select>
+			<option>Slower</option>
+			<option>Slow</option>
+			<option>Medium</option>
+			<option>Fast</option>
+			<option>Faster</option>
+		</select>
+	</dd>
+</dl>
 </body>
 </html>
