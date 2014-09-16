@@ -131,7 +131,8 @@
 				//给select标签加包裹
 				if (!selectui.length) {
 					selectui = create("select_ui", "span");
-					selectui.replaceAll(select).append(create("select_arrow", "b")).append(select);
+					selectui.insertAfter(select);
+					selectui.append(create("select_arrow", "b")).append(select);
 				}
 
 				selectui.data("selectuiopts", options);
