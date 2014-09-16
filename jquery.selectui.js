@@ -79,7 +79,7 @@
 			textdiv.html(text);
 		}
 
-		if (options.autoWidth) {
+		if (options && options.autoWidth) {
 			//计算select宽度
 			$.each(select.options, function() {
 				var text = this.label || this.innerText || this.textContent || this.innerHTML,
