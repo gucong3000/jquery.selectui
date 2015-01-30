@@ -10,7 +10,11 @@
 			// 是否自动计算宽度
 			autoWidth: true,
 			// 是否启用定时器刷新文本和宽度
-			interval: true
+			interval: true,
+			// 从Option标签何处获取文本信息，作为选中项显示文案
+			label: function() {
+				return $(this).text();
+			},
 		};
 
 	function create(className, nodeName) {
@@ -65,24 +69,25 @@
 
 	function modifyText(select) {
 		//select方式变化时，写入当前选择项文本
-		var index = select.selectedIndex,
-			text = index < 0 ? "" : select.options[index].innerHTML,
-			select_ui = $(select).closest(".select_ui"),
-			options = select_ui.data("selectuiopts"),
+		var select_ui = $(select).closest(".select_ui"),
+			options = select_ui.data("selectuiopts") || {},
+			index = select.selectedIndex,
+			labelFn = options.label,
+			text = index < 0 ? "" : labelFn.call(select.options[index]),
 			textdiv = select_ui.find(".select_text_ui"),
 			length = 0;
 		if (!textdiv.length) {
 			textdiv = create("select_text_ui", "span").prependTo(select_ui);
 		}
 		text = text || "&nbsp;";
-		if (textdiv.html() !== text) {
-			textdiv.html(text);
+		if (textdiv.text() !== text) {
+			textdiv.text(text);
 		}
 
-		if (options && options.autoWidth) {
+		if (options.autoWidth) {
 			//计算select宽度
 			$.each(select.options, function() {
-				var text = this.label || this.innerText || this.textContent || this.innerHTML,
+				var text = labelFn.call(this),
 					width = text.match(/[u0000-u00FF]/g);
 				width = text.length - (width ? width.length / 2 : 0) + 0.5;
 				length = Math.max(width, length);
@@ -119,7 +124,13 @@
 	}
 
 	$.fn.selectui = function(options) {
-		options = $.extend(options || {}, defaultOptions);
+		options = $.extend({}, defaultOptions, options);
+		var labelPropName = options.label;
+		if (typeof labelPropName === "string") {
+			options.label = function() {
+				return $(this).prop(labelPropName);
+			};
+		}
 		return this.each(function() {
 
 			var modifyTextTimer,
@@ -138,7 +149,7 @@
 				selectui.data("selectuiopts", options);
 
 				//监听可能改变select选中项的事件
-				select.bind("change propertychange DOMAttrModified DOMNodeInserted DOMNodeRemoved keypress", function() {
+				select.bind("change propertychange DOMAttrModified DOMNodeInserted DOMNodeRemoved keypress keyup input", function() {
 					//利用定时器过滤多次事件触发，短时间内只运行最后一次
 					clearTimeout(modifyTextTimer);
 					var select = this;
@@ -160,7 +171,6 @@
 					//IE6、7中模拟select，并非原生
 					fixie(selectui, this);
 				}
-
 				// 选项中有，才启用定时器
 				if (options.interval) {
 					startInterval(this);
@@ -172,4 +182,4 @@
 	//对外暴漏修改默认设置的接口
 	$.fn.selectui.options = defaultOptions;
 
-})(jQuery);
+})(window.jQuery || require("jquery"));
