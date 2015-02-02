@@ -14,7 +14,7 @@
 			// 从Option标签何处获取文本信息，作为选中项显示文案
 			label: function() {
 				return $(this).text();
-			},
+			}
 		};
 
 	function create(className, nodeName) {
@@ -171,6 +171,7 @@
 					//IE6、7中模拟select，并非原生
 					fixie(selectui, this);
 				}
+
 				// 选项中有，才启用定时器
 				if (options.interval) {
 					startInterval(this);
