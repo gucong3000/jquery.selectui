@@ -12,6 +12,8 @@ Modifying select appearance
 
 ```Javescript
 $("select").selectui({
+	// 设置从<option>何处获取占位字符，String或Function，默认`function() {return $(this).text();}`
+	label: "value",
 	// 是否自动计算宽度，设置为false时可css设置宽度
 	autoWidth: true,
 	// 是否启用定时检测select当前选中项，当改变时更新文本
