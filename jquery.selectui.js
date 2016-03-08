@@ -12,9 +12,7 @@
 			// 是否启用定时器刷新文本和宽度
 			interval: true,
 			// 从Option标签何处获取文本信息，作为选中项显示文案
-			label: function() {
-				return $(this).text();
-			}
+			label: "label"
 		};
 
 	function create(className, nodeName) {
@@ -73,7 +71,7 @@
 			options = select_ui.data("selectuiopts") || {},
 			index = select.selectedIndex,
 			labelFn = options.label,
-			text = index < 0 ? "" : labelFn.call(select.options[index]),
+			text = index < 0 ? "" : labelFn(select.options[index]),
 			textdiv = select_ui.find(".select_text_ui"),
 			length = 0;
 		if (!textdiv.length) {
@@ -86,8 +84,8 @@
 
 		if (options.autoWidth) {
 			//计算select宽度
-			$.each(select.options, function() {
-				var text = labelFn.call(this),
+			$.each(select.options, function(i, opt) {
+				var text = labelFn(opt),
 					width = text.match(/[u0000-u00FF]/g);
 				width = text.length - (width ? width.length / 2 : 0) + 0.5;
 				length = Math.max(width, length);
@@ -113,10 +111,10 @@
 		} else {
 			selectQueue = [select];
 			setInterval(function() {
-				$.each(selectQueue, function() {
+				$.each(selectQueue, function(i, that) {
 					//解决bug，火狐下selectIndex会随菜单项滑动而变化
-					if (document.activeElement !== this) {
-						modifyText(this);
+					if (document.activeElement !== that) {
+						modifyText(that);
 					}
 				});
 			}, 200);
@@ -127,14 +125,15 @@
 		options = $.extend({}, defaultOptions, options);
 		var labelPropName = options.label;
 		if (typeof labelPropName === "string") {
-			options.label = function() {
-				return $(this).prop(labelPropName);
+			options.label = function(opt) {
+				return opt[labelPropName];
 			};
 		}
-		return this.each(function() {
+
+		return this.each(function(i, that) {
 
 			var modifyTextTimer,
-				select = $(this),
+				select = $(that),
 				selectui = select.closest(".select_ui");
 
 			if (select.css("display") !== "none") {
@@ -152,13 +151,12 @@
 				select.bind("change propertychange DOMAttrModified DOMNodeInserted DOMNodeRemoved keypress keyup input", function() {
 					//利用定时器过滤多次事件触发，短时间内只运行最后一次
 					clearTimeout(modifyTextTimer);
-					var select = this;
+					var select = that;
 					modifyTextTimer = setTimeout(function() {
 						modifyText(select);
 					}, 10);
-				}).each(function() {
-					modifyText(this);
 				});
+				modifyText(that);
 
 				//其他浏览器添加焦点态样式即可
 				selectui.focusin(function() {
@@ -169,12 +167,12 @@
 
 				if (fixie) {
 					//IE6、7中模拟select，并非原生
-					fixie(selectui, this);
+					fixie(selectui, that);
 				}
 
 				// 选项中有，才启用定时器
 				if (options.interval) {
-					startInterval(this);
+					startInterval(that);
 				}
 			}
 		});

@@ -12,13 +12,15 @@ Modifying select appearance
 
 ```Javescript
 $("select").selectui({
-	// 设置从<option>何处获取占位字符，String或Function，默认`function() {return $(this).text();}`
-	label: "value",
-	// 是否自动计算宽度，设置为false时可css设置宽度
+	// 设置从<option>何处获取占位字符，String或Function，默认"label"，设置为函数时，取函数返回值。
+	label: "label",
+	// 是否自动计算宽度，设置为false时可css设置宽度，默认`true`
 	autoWidth: true,
-	// 是否启用定时检测select当前选中项，当改变时更新文本
+	// 是否启用定时检测select当前选中项，当改变时更新文本，默认`true`
 	interval: true
 });
+
+// $.fn.selectui.options 可修改参数默认值
 ```
 
 ## 浏览器支持
